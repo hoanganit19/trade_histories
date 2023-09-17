@@ -7,6 +7,7 @@ var cron = require("node-cron");
 cron.schedule("* * * * * *", async () => {
   const histories = await getHistories();
   const currentHistory = histories[0];
+  currentHistory.createdAt = new Date().getTime();
   let data = fs.readFileSync(dataPath).toString();
   if (!data) {
     data = [];
