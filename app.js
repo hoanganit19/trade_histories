@@ -1,6 +1,8 @@
 const express = require("express");
+var cors = require("cors");
 const app = express();
 const port = 3005;
+app.use(cors());
 
 const HomeController = require("./controllers/HomeController");
 const ApiController = require("./controllers/ApiController");
