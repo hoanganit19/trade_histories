@@ -27,7 +27,7 @@ cron.schedule("* * * * * *", async () => {
   }
 
   data = data.filter((item) => {
-    return item.createdAt >= new Date(endDayStr).getTime();
+    return item.createdAt <= new Date(endDayStr).getTime();
   });
 
   fs.writeFileSync(dataPath, JSON.stringify(data));
