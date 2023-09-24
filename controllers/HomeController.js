@@ -26,7 +26,7 @@ cron.schedule("* * * * * *", async () => {
     data.unshift(currentHistory);
   }
 
-  data = data.map((item) => {
+  data = data.filter((item) => {
     return item.createdAt >= new Date(endDayStr).getTime();
   });
 
