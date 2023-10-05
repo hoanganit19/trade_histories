@@ -18,7 +18,7 @@ module.exports = {
     );
 
     const result = await repsonse.json();
-    return result;
+    return result.data;
   },
 
   sendMessage: async (message) => {
@@ -55,5 +55,36 @@ module.exports = {
     const histories = await repsonse.json();
 
     return histories.data.gameslist;
+  },
+
+  sendOrder: async (type, amount, id) => {
+    const data = {
+      typeid: "1",
+      language: "vi",
+      uid: "355508",
+      sign: "1FA466C0C04043554A4DB9D4B743F571B160043A897670AF087EEA4B405A7538",
+      amount: 1000,
+      betcount: amount,
+      gametype: 2,
+      selecttype: type,
+      issuenumber: id,
+    };
+    const repsonse = await fetch(
+      `https://66clubapiapi.com/api/webapi/GameBetting`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(data).toString(),
+      },
+    );
+
+    const result = await repsonse.json();
+    return result;
+  },
+
+  getType: (number) => {
+    return number < 5 ? "small" : "big";
   },
 };
