@@ -10,7 +10,7 @@ const { getHistories, getGameIssue, sendOrder, getOrder } = require("./ultis");
 const express = require("express");
 var cors = require("cors");
 const app = express();
-const port = 3005;
+const port = 3006;
 app.use(cors());
 process.env.TZ = "Asia/Ho_Chi_Minh";
 
