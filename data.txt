@@ -1,1 +1,0 @@
-[{"rowId":1,"IssueNumber":"20231005011015","Number":"1","Colour":"green","Premium":"33881","createdAt":1696499717766}]

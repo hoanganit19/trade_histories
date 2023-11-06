@@ -1,13 +1,15 @@
 const { URLSearchParams } = require("url");
 
 module.exports = {
-  getGameIssue: async () => {
+  getGameIssue: async (vendor = "66club") => {
     const data = {
       typeid: "1",
       language: "vi",
     };
     const repsonse = await fetch(
-      `https://66clubapiapi.com/api/webapi/GetGameIssue`,
+      `https://${
+        vendor === "66club" ? "66clubapiapi" : "82vn82vnapi"
+      }.com/api/webapi/GetGameIssue`,
       {
         method: "POST",
         headers: {
@@ -35,14 +37,16 @@ module.exports = {
     return status;
   },
 
-  getHistories: async () => {
+  getHistories: async (vendor = "66club") => {
     const data = {
       typeid: "1",
       language: "vi",
       pageno: 1,
     };
     const repsonse = await fetch(
-      `https://66clubapiapi.com/api/webapi/GetNoaverageEmerdList`,
+      `https://${
+        vendor === "66club" ? "66clubapiapi" : "82vn82vnapi"
+      }.com/api/webapi/GetNoaverageEmerdList`,
       {
         method: "POST",
         headers: {
@@ -57,7 +61,7 @@ module.exports = {
     return histories.data.gameslist;
   },
 
-  sendOrder: async (type, amount, id) => {
+  sendOrder: async (type, amount, id, vendor = "66club") => {
     const data = {
       typeid: "1",
       language: "vi",
@@ -70,7 +74,9 @@ module.exports = {
       issuenumber: id,
     };
     const repsonse = await fetch(
-      `https://66clubapiapi.com/api/webapi/GameBetting`,
+      `https://${
+        vendor === "66club" ? "66clubapiapi" : "82vn82vnapi"
+      }.com/api/webapi/GameBetting`,
       {
         method: "POST",
         headers: {
@@ -86,5 +92,30 @@ module.exports = {
 
   getType: (number) => {
     return number < 5 ? "small" : "big";
+  },
+
+  getOrder: async (vendor = "66club") => {
+    const data = {
+      typeid: "1",
+      language: "vi",
+      uid: "355508",
+      sign: "1FA466C0C04043554A4DB9D4B743F571B160043A897670AF087EEA4B405A7538",
+      pageno: 1,
+    };
+    const repsonse = await fetch(
+      `https://${
+        vendor === "66club" ? "66clubapiapi" : "82vn82vnapi"
+      }.com/api/webapi/GetMyEmerdList`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(data).toString(),
+      },
+    );
+
+    const result = await repsonse.json();
+    return result.data.myorderlist[0];
   },
 };
