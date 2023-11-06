@@ -10,7 +10,7 @@ const { getHistories, getGameIssue, sendOrder, getOrder } = require("./ultis");
 const express = require("express");
 var cors = require("cors");
 const app = express();
-const port = 3006;
+const port = 3000;
 app.use(cors());
 process.env.TZ = "Asia/Ho_Chi_Minh";
 
@@ -82,7 +82,7 @@ cron.schedule("* * * * * *", async () => {
 
 const TelegramBot = require("node-telegram-bot-api");
 // replace the value below with the Telegram token you receive from @BotFather
-const token = "6645928575:AAEDrcGrNjriMlU99Q0zV5VImA5VzeM9Y9E";
+const token = "6645928575:AAH2ad6c6Qjldn0BQ_ylY2Sej_EdV4bxsDE";
 
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, { polling: true });
