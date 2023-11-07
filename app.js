@@ -38,7 +38,7 @@ cron.schedule("* * * * * *", async () => {
   let loss = +fs.readFileSync(lossPath).toString();
   let status = +fs.readFileSync(statusPath).toString();
   let last = +fs.readFileSync(lastPath).toString();
-  if (last && +issueNumber.slice(-1) === 0) {
+  if (last && +issueNumber >= last + 10) {
     fs.writeFileSync(lastPath, "0");
     last = 0;
   }
@@ -61,15 +61,15 @@ cron.schedule("* * * * * *", async () => {
         index++;
         if (index >= arr.length) {
           index = 0;
-          fs.writeFileSync(lastPath, "1");
-          last = 1;
-          if (!loss) {
-            fs.writeFileSync(lossPath, "0");
-            loss = 0;
-          } else {
-            fs.writeFileSync(lossPath, "0");
-            loss = 0;
-          }
+          fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
+          last = +lastestOrder.IssueNumber;
+          // if (!loss) {
+          //   fs.writeFileSync(lossPath, "0");
+          //   loss = 0;
+          // } else {
+          //   fs.writeFileSync(lossPath, "0");
+          //   loss = 0;
+          // }
         }
       }
       console.log(index);
