@@ -60,8 +60,13 @@ cron.schedule("* * * * * *", async () => {
         index++;
         if (index >= arr.length) {
           index = 0;
-          fs.writeFileSync(lossPath, "1");
-          loss = 1;
+          if (!loss) {
+            fs.writeFileSync(lossPath, "1");
+            loss = 1;
+          } else {
+            fs.writeFileSync(lossPath, "0");
+            loss = 0;
+          }
         }
       }
       console.log(index);
@@ -72,7 +77,11 @@ cron.schedule("* * * * * *", async () => {
       console.log(msg);
     }
 
-    if (!loss && status) {
+    if (loss) {
+      type = "big";
+    }
+
+    if (status) {
       const order = await sendOrder(type, arr[index], issueNumber, "66club");
 
       console.log(order);
@@ -96,6 +105,7 @@ bot.on("message", (msg) => {
     return;
   }
   if (msg.text === "/status") {
+    let status = +fs.readFileSync(statusPath).toString();
     if (status) {
       bot.sendMessage(chatId, "Bot đang chạy");
     } else {
@@ -112,6 +122,8 @@ bot.on("message", (msg) => {
 
   if (msg.text === "/turn_off") {
     fs.writeFileSync(statusPath, "0");
+    fs.writeFileSync(lossPath, "0");
+    fs.writeFileSync(tradePath, "0");
     bot.sendMessage(chatId, "Đã tắt bot");
     return;
   }
