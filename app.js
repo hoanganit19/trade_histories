@@ -41,9 +41,13 @@ cron.schedule("* * * * * *", async () => {
   let result = fs.readFileSync(resultPath).toString();
   let loss = +fs.readFileSync(lossPath).toString();
   let status = +fs.readFileSync(statusPath).toString();
-  if (loss && +issueNumber.slice(-1) === 0) {
-    fs.writeFileSync(lossPath, "0");
-    loss = 0;
+  // if (loss && +issueNumber.slice(-1) === 0) {
+  //   fs.writeFileSync(lossPath, "0");
+  //   loss = 0;
+  // }
+
+  if (loss) {
+    type = "big";
   }
 
   const lastestOrder = await getOrder("66club");
@@ -75,10 +79,6 @@ cron.schedule("* * * * * *", async () => {
       fs.writeFileSync(resultPath, lastestOrder.IssueNumber);
 
       console.log(msg);
-    }
-
-    if (loss) {
-      type = "big";
     }
 
     if (status) {
