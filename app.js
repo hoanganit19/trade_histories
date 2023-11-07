@@ -114,6 +114,17 @@ bot.on("message", (msg) => {
     return;
   }
 
+  if (msg.text === "/type") {
+    let value;
+    if (!loss) {
+      value = "Chiến lược 1";
+    } else {
+      value = "Chiến lược 1 lệnh";
+    }
+    bot.sendMessage(chatId, value);
+    return;
+  }
+
   if (msg.text === "/turn_on") {
     fs.writeFileSync(statusPath, "1");
     bot.sendMessage(chatId, "Đã bật bot");
