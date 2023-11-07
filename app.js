@@ -116,6 +116,7 @@ bot.on("message", (msg) => {
 
   if (msg.text === "/type") {
     let value;
+    let loss = +fs.readFileSync(lossPath).toString();
     if (!loss) {
       value = "Chiến lược 1";
     } else {
