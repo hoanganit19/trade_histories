@@ -70,7 +70,7 @@ cron.schedule("* * * * * *", async () => {
       } else {
         msg = `Kết quả: ${lastestOrder.IssueNumber} Thua`;
         index++;
-        if (index >= arr.length || last) {
+        if (index >= arr.length) {
           index = 0;
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
           // last = +lastestOrder.IssueNumber;
