@@ -2,6 +2,7 @@ const tradePath = require("path").resolve(__dirname, ".") + "/trade.txt";
 const resultPath = require("path").resolve(__dirname, ".") + "/result.txt";
 const lossPath = require("path").resolve(__dirname, ".") + "/loss.txt";
 const statusPath = require("path").resolve(__dirname, ".") + "/status.txt";
+const lastPath = require("path").resolve(__dirname, ".") + "/last.txt";
 const fs = require("fs");
 const cron = require("node-cron");
 
@@ -14,11 +15,6 @@ const port = 3000;
 app.use(cors());
 process.env.TZ = "Asia/Ho_Chi_Minh";
 
-const HomeController = require("./controllers/HomeController");
-const ApiController = require("./controllers/ApiController");
-
-// app.get("/", HomeController.index);
-// app.get("/api/histories", ApiController.index);
 app.get("/", (req, res) => {
   res.send("Hello BOT");
 });
@@ -41,10 +37,11 @@ cron.schedule("* * * * * *", async () => {
   let result = fs.readFileSync(resultPath).toString();
   let loss = +fs.readFileSync(lossPath).toString();
   let status = +fs.readFileSync(statusPath).toString();
-  // if (loss && +issueNumber.slice(-1) === 0) {
-  //   fs.writeFileSync(lossPath, "0");
-  //   loss = 0;
-  // }
+  let last = +fs.readFileSync(lastPath).toString();
+  if (last && +issueNumber.slice(-1) === 0) {
+    fs.writeFileSync(lastPath, "0");
+    last = 0;
+  }
 
   if (loss) {
     type = "big";
@@ -64,6 +61,8 @@ cron.schedule("* * * * * *", async () => {
         index++;
         if (index >= arr.length) {
           index = 0;
+          fs.writeFileSync(lastPath, "1");
+          last = 1;
           if (!loss) {
             fs.writeFileSync(lossPath, "1");
             loss = 1;
@@ -81,7 +80,7 @@ cron.schedule("* * * * * *", async () => {
       console.log(msg);
     }
 
-    if (status) {
+    if (status && !last) {
       const order = await sendOrder(type, arr[index], issueNumber, "66club");
 
       console.log(order);
@@ -101,6 +100,7 @@ bot.on("message", (msg) => {
   if (msg.text === "/reset") {
     fs.writeFileSync(lossPath, "0");
     fs.writeFileSync(tradePath, "0");
+    fs.writeFileSync(lastPath, "0");
     bot.sendMessage(chatId, "Reset bot thành công");
     return;
   }
@@ -136,6 +136,7 @@ bot.on("message", (msg) => {
     fs.writeFileSync(statusPath, "0");
     fs.writeFileSync(lossPath, "0");
     fs.writeFileSync(tradePath, "0");
+    fs.writeFileSync(lastPath, "0");
     bot.sendMessage(chatId, "Đã tắt bot");
     return;
   }
