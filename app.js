@@ -64,8 +64,8 @@ cron.schedule("* * * * * *", async () => {
           fs.writeFileSync(lastPath, "1");
           last = 1;
           if (!loss) {
-            fs.writeFileSync(lossPath, "1");
-            loss = 1;
+            fs.writeFileSync(lossPath, "0");
+            loss = 0;
           } else {
             fs.writeFileSync(lossPath, "0");
             loss = 0;
