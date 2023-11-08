@@ -42,11 +42,7 @@ cron.schedule("* * * * * *", async () => {
   //   fs.writeFileSync(lastPath, "0");
   //   last = 0;
   // }
-  if (
-    +issueNumber.slice(-1) === 0 ||
-    +issueNumber.slice(-1) === 1 ||
-    +issueNumber.slice(-1) === 2
-  ) {
+  if (+issueNumber.slice(-1) >= 0 && +issueNumber.slice(-1) <= 4) {
     fs.writeFileSync(lastPath, "0");
     last = 0;
   } else {
