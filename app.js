@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 cron.schedule("* * * * * *", async () => {
-  const arr = [10, 20, 50, 100];
+  const arr = [10, 20, 50];
   const { IssueNumber: issueNumber } = await getGameIssue("66club");
   let histories = await getHistories("66club");
   histories = histories.slice(0, 2);
@@ -54,9 +54,10 @@ cron.schedule("* * * * * *", async () => {
     last = 1;
   }
 
-  if (loss) {
-    type = "big";
-  }
+  // if (loss) {
+  //   type = "big";
+  // }
+  type = "big";
 
   const lastestOrder = await getOrder("66club");
 
