@@ -107,7 +107,8 @@ cron.schedule("* * * * * *", async () => {
       fs.writeFileSync(tradePath, index + "");
 
       fs.writeFileSync(resultPath, lastestOrder.IssueNumber);
-      const output = `${msg} - Tổng tiền: ${await getAmount()}`;
+      const amount = await getAmount();
+      const output = `${msg} - Tổng tiền: ${+amount.toLocaleString()}đ`;
       bot.sendMessage(656142850, output);
     }
 
