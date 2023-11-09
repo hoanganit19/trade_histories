@@ -6,7 +6,13 @@ const lastPath = require("path").resolve(__dirname, ".") + "/last.txt";
 const fs = require("fs");
 const cron = require("node-cron");
 
-const { getHistories, getGameIssue, sendOrder, getOrder } = require("./ultis");
+const {
+  getHistories,
+  getGameIssue,
+  sendOrder,
+  getOrder,
+  getAmount,
+} = require("./ultis");
 
 const express = require("express");
 var cors = require("cors");
@@ -17,6 +23,10 @@ process.env.TZ = "Asia/Ho_Chi_Minh";
 
 app.get("/", (req, res) => {
   res.send("Hello BOT");
+});
+
+app.get("/test", async (req, res) => {
+  res.json(await getAmount());
 });
 
 cron.schedule("* * * * * *", async () => {
@@ -42,18 +52,30 @@ cron.schedule("* * * * * *", async () => {
   //   fs.writeFileSync(lastPath, "0");
   //   last = 0;
   // }
-  if (+issueNumber.slice(-1) >= 0 && +issueNumber.slice(-1) <= 4) {
-    fs.writeFileSync(lastPath, "0");
-    last = 0;
-  } else {
-    fs.writeFileSync(lastPath, "1");
-    last = 1;
-  }
+  // if (+issueNumber.slice(-1) >= 0 && +issueNumber.slice(-1) <= 4) {
+  //   fs.writeFileSync(lastPath, "0");
+  //   last = 0;
+  // } else {
+  //   fs.writeFileSync(lastPath, "1");
+  //   last = 1;
+  // }
 
   // if (loss) {
   //   type = "big";
   // }
-  type = "big";
+
+  if (+issueNumber.slice(-1) === 0 || +issueNumber.slice(-1) === 5) {
+    fs.writeFileSync(lastPath, "1");
+    last = 1;
+  } else {
+    fs.writeFileSync(lastPath, "0");
+    last = 0;
+    if (+issueNumber.slice(-1) > 0 && +issueNumber.slice(-1) < 5) {
+      type = "small";
+    } else {
+      type = "big";
+    }
+  }
 
   const lastestOrder = await getOrder("66club");
 

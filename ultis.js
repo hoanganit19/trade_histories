@@ -118,4 +118,29 @@ module.exports = {
     const result = await repsonse.json();
     return result.data.myorderlist[0];
   },
+
+  getAmount: async (vendor = "66club") => {
+    const data = {
+      language: "vi",
+      uid: "355508",
+      sign: "1FA466C0C04043554A4DB9D4B743F571B160043A897670AF087EEA4B405A7538",
+    };
+
+    const repsonse = await fetch(
+      `https://${
+        vendor === "66club" ? "66clubapiapi" : "82vn82vnapi"
+      }.com/api/webapi/GetWinsUserAmount`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(data).toString(),
+      },
+    );
+
+    const result = await repsonse.json();
+
+    return result.data.Amount;
+  },
 };
