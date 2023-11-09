@@ -25,9 +25,10 @@ app.get("/", (req, res) => {
   res.send("Hello BOT");
 });
 
-app.get("/test", async (req, res) => {
-  res.json(await getAmount());
-});
+// app.get("/test", async (req, res) => {
+//   bot.sendMessage(656142850, "Xin chào");
+//   res.json(await getAmount());
+// });
 
 cron.schedule("* * * * * *", async () => {
   const arr = [10, 20, 50];
@@ -102,12 +103,12 @@ cron.schedule("* * * * * *", async () => {
           // }
         }
       }
-      console.log(index);
+
       fs.writeFileSync(tradePath, index + "");
 
       fs.writeFileSync(resultPath, lastestOrder.IssueNumber);
-
-      console.log(msg);
+      const output = `${msg} - Tổng tiền: ${await getAmount()}`;
+      bot.sendMessage(656142850, output);
     }
 
     if (status && !last) {
@@ -127,6 +128,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
+  console.log(chatId);
   if (msg.text === "/reset") {
     fs.writeFileSync(lossPath, "0");
     fs.writeFileSync(tradePath, "0");
