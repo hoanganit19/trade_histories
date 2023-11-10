@@ -200,6 +200,17 @@ bot.on("message", (msg) => {
     bot.sendMessage(chatId, "Đã tắt bot");
     return;
   }
+  if (msg.text === "/type_0") {
+    fs.writeFileSync(lossPath, "0");
+    bot.sendMessage(chatId, "Đã đổi chiến lược thuận");
+    return;
+  }
+
+  if (msg.text === "/type_1") {
+    fs.writeFileSync(lossPath, "1");
+    bot.sendMessage(chatId, "Đã đổi chiến lược ngược");
+    return;
+  }
 });
 
 app.listen(port, () => {
