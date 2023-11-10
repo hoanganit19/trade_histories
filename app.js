@@ -109,20 +109,18 @@ cron.schedule("* * * * * *", async () => {
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
           // last = +lastestOrder.IssueNumber;
           if (lossNumber === 1) {
-            if (!loss) {
-              fs.writeFileSync(lossPath, "0");
-              loss = 1;
-            } else {
-              fs.writeFileSync(lossPath, "0");
-              loss = 0;
-            }
-
-            fs.writeFileSync(lossNumberPath, "0");
-
-            bot.sendMessage(
-              656142850,
-              "Đổi chiến lược: " + loss ? "Ngược" : "Thuận",
-            );
+            // if (!loss) {
+            //   fs.writeFileSync(lossPath, "0");
+            //   loss = 1;
+            // } else {
+            //   fs.writeFileSync(lossPath, "0");
+            //   loss = 0;
+            // }
+            // fs.writeFileSync(lossNumberPath, "0");
+            // bot.sendMessage(
+            //   656142850,
+            //   "Đổi chiến lược: " + loss ? "Ngược" : "Thuận",
+            // );
           }
         }
       }
