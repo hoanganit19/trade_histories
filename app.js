@@ -99,14 +99,13 @@ cron.schedule("* * * * * *", async () => {
       if (+lastestOrder.State == 1) {
         msg = `Kết quả: ${lastestOrder.IssueNumber} Thắng`;
         index = 0;
-        fs.writeFileSync(lossNumberPath, "0"); //reset số lượng thua khi có lệnh thắc
       } else {
         msg = `Kết quả: ${lastestOrder.IssueNumber} Thua`;
         index++;
         if (index >= arr.length) {
           index = 0;
           //Tăng số lượng thua tối đa
-
+          fs.writeFileSync(lossNumberPath, "1");
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
           // last = +lastestOrder.IssueNumber;
           if (lossNumber === 1) {
