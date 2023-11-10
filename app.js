@@ -3,6 +3,8 @@ const resultPath = require("path").resolve(__dirname, ".") + "/result.txt";
 const lossPath = require("path").resolve(__dirname, ".") + "/loss.txt";
 const statusPath = require("path").resolve(__dirname, ".") + "/status.txt";
 const lastPath = require("path").resolve(__dirname, ".") + "/last.txt";
+const lossNumberPath =
+  require("path").resolve(__dirname, ".") + "/loss_number.txt";
 const fs = require("fs");
 const cron = require("node-cron");
 
@@ -49,6 +51,8 @@ cron.schedule("* * * * * *", async () => {
   let loss = +fs.readFileSync(lossPath).toString();
   let status = +fs.readFileSync(statusPath).toString();
   let last = +fs.readFileSync(lastPath).toString();
+  let lossNumber = +fs.readFileSync(lossNumberPath).toString();
+
   // if (last && +issueNumber >= last + 10) {
   //   fs.writeFileSync(lastPath, "0");
   //   last = 0;
@@ -72,9 +76,17 @@ cron.schedule("* * * * * *", async () => {
     fs.writeFileSync(lastPath, "0");
     last = 0;
     if (+issueNumber.slice(-1) > 0 && +issueNumber.slice(-1) < 5) {
-      type = "small";
+      if (!loss) {
+        type = "small";
+      } else {
+        type = "big";
+      }
     } else {
-      type = "big";
+      if (!loss) {
+        type = "big";
+      } else {
+        type = "small";
+      }
     }
   }
 
@@ -87,20 +99,32 @@ cron.schedule("* * * * * *", async () => {
       if (+lastestOrder.State == 1) {
         msg = `Kết quả: ${lastestOrder.IssueNumber} Thắng`;
         index = 0;
+        fs.writeFileSync(lossNumberPath, "0"); //reset số lượng thua khi có lệnh thắc
       } else {
         msg = `Kết quả: ${lastestOrder.IssueNumber} Thua`;
         index++;
         if (index >= arr.length) {
           index = 0;
+          //Tăng số lượng thua tối đa
+
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
           // last = +lastestOrder.IssueNumber;
-          // if (!loss) {
-          //   fs.writeFileSync(lossPath, "0");
-          //   loss = 0;
-          // } else {
-          //   fs.writeFileSync(lossPath, "0");
-          //   loss = 0;
-          // }
+          if (lossNumber === 1) {
+            if (!loss) {
+              fs.writeFileSync(lossPath, "0");
+              loss = 1;
+            } else {
+              fs.writeFileSync(lossPath, "0");
+              loss = 0;
+            }
+
+            fs.writeFileSync(lossNumberPath, "0");
+
+            bot.sendMessage(
+              656142850,
+              "Đổi chiến lược: " + loss ? "Ngược" : "Thuận",
+            );
+          }
         }
       }
 
@@ -134,6 +158,7 @@ bot.on("message", (msg) => {
     fs.writeFileSync(lossPath, "0");
     fs.writeFileSync(tradePath, "0");
     fs.writeFileSync(lastPath, "0");
+    fs.writeFileSync(lossNumberPath, "0");
     bot.sendMessage(chatId, "Reset bot thành công");
     return;
   }
@@ -151,9 +176,9 @@ bot.on("message", (msg) => {
     let value;
     let loss = +fs.readFileSync(lossPath).toString();
     if (!loss) {
-      value = "Chiến lược 1";
+      value = "Chiến lược thuận";
     } else {
-      value = "Chiến lược 1 lệnh";
+      value = "Chiến lược ngược";
     }
     bot.sendMessage(chatId, value);
     return;
