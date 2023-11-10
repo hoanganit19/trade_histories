@@ -138,7 +138,10 @@ cron.schedule("* * * * * *", async () => {
 
     if (status && !last) {
       const order = await sendOrder(type, arr[index], issueNumber, "66club");
-
+      bot.sendMessage(
+        656142850,
+        `Đánh ${type} - ${arr[index].toLocaleString()}đ`,
+      );
       console.log(order);
     }
   }
