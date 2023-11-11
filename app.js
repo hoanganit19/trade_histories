@@ -104,8 +104,13 @@ cron.schedule("* * * * * *", async () => {
         index++;
         if (index >= arr.length) {
           index = 0;
+          fs.writeFileSync(statusPath, "0");
+          fs.writeFileSync(lossPath, "0");
+          fs.writeFileSync(tradePath, "0");
+          fs.writeFileSync(lastPath, "0");
+          bot.sendMessage(chatId, "Tắt bot thành công");
           //Tăng số lượng thua tối đa
-          fs.writeFileSync(lossNumberPath, "1");
+          //fs.writeFileSync(lossNumberPath, "1");
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
           // last = +lastestOrder.IssueNumber;
           if (lossNumber === 1) {
