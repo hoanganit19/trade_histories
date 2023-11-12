@@ -117,7 +117,7 @@ cron.schedule("* * * * * *", async () => {
           fs.writeFileSync(tradePath, "0");
           fs.writeFileSync(lastPath, "0");
           bot.sendMessage(656142850, "Tắt bot thành công");
-          status = 0;
+
           //Tăng số lượng thua tối đa
           //fs.writeFileSync(lossNumberPath, "1");
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
@@ -147,6 +147,7 @@ cron.schedule("* * * * * *", async () => {
       bot.sendMessage(656142850, output);
     }
 
+    status = +fs.readFileSync(statusPath).toString();
     if (status && !last) {
       const order = await sendOrder(type, arr[index], issueNumber, "66club");
       bot.sendMessage(
