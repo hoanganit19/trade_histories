@@ -88,6 +88,14 @@ cron.schedule("* * * * * *", async () => {
         type = "small";
       }
     }
+
+    if (loss === 2) {
+      if (premium1 < premium2) {
+        type = "small";
+      } else {
+        type = "big";
+      }
+    }
   }
 
   const lastestOrder = await getOrder("66club");
@@ -108,7 +116,7 @@ cron.schedule("* * * * * *", async () => {
           fs.writeFileSync(lossPath, "0");
           fs.writeFileSync(tradePath, "0");
           fs.writeFileSync(lastPath, "0");
-          bot.sendMessage(chatId, "Tắt bot thành công");
+          bot.sendMessage(656142850, "Tắt bot thành công");
           //Tăng số lượng thua tối đa
           //fs.writeFileSync(lossNumberPath, "1");
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
@@ -212,6 +220,12 @@ bot.on("message", (msg) => {
   if (msg.text === "/type_1") {
     fs.writeFileSync(lossPath, "1");
     bot.sendMessage(chatId, "Đã đổi chiến lược ngược");
+    return;
+  }
+
+  if (msg.text === "/type_2") {
+    fs.writeFileSync(lossPath, "2");
+    bot.sendMessage(chatId, "Đã đổi chiến lược Premium");
     return;
   }
 });
