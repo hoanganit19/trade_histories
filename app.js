@@ -110,13 +110,14 @@ cron.schedule("* * * * * *", async () => {
       } else {
         msg = `Kết quả: ${lastestOrder.IssueNumber} Thua`;
         index++;
-        if (index >= arr.length) {
+        if (index >= arr.length - 1) {
           index = 0;
           fs.writeFileSync(statusPath, "0");
           fs.writeFileSync(lossPath, "0");
           fs.writeFileSync(tradePath, "0");
           fs.writeFileSync(lastPath, "0");
           bot.sendMessage(656142850, "Tắt bot thành công");
+          status = 0;
           //Tăng số lượng thua tối đa
           //fs.writeFileSync(lossNumberPath, "1");
           // fs.writeFileSync(lastPath, lastestOrder.IssueNumber);
