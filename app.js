@@ -119,11 +119,11 @@ cron.schedule("* * * * * *", async () => {
         index++;
         if (index >= arr.length) {
           index = 0;
-          fs.writeFileSync(statusPath, "0");
-          fs.writeFileSync(lossPath, "0");
-          fs.writeFileSync(tradePath, "0");
-          fs.writeFileSync(lastPath, "0");
-          bot.sendMessage(656142850, "Tắt bot thành công");
+          // fs.writeFileSync(statusPath, "0");
+          // fs.writeFileSync(lossPath, "0");
+          // fs.writeFileSync(tradePath, "0");
+          // fs.writeFileSync(lastPath, "0");
+          // bot.sendMessage(656142850, "Tắt bot thành công");
 
           //Tăng số lượng thua tối đa
           //fs.writeFileSync(lossNumberPath, "1");
