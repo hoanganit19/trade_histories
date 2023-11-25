@@ -69,7 +69,14 @@ cron.schedule("* * * * * *", async () => {
   //   type = "big";
   // }
 
-  if (+issueNumber.slice(-1) === 0 || +issueNumber.slice(-1) === 5) {
+  if (
+    +issueNumber.slice(-1) === 0 ||
+    +issueNumber.slice(-1) === 1 ||
+    +issueNumber.slice(-1) === 2 ||
+    +issueNumber.slice(-1) === 6 ||
+    +issueNumber.slice(-1) === 7 ||
+    +issueNumber.slice(-1) === 8
+  ) {
     fs.writeFileSync(lastPath, "1");
     last = 1;
   } else {
