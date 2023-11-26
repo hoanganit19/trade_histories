@@ -163,7 +163,7 @@ cron.schedule("* * * * * *", async () => {
       );
       console.log(order);
     } else {
-      fs.writeFileSync(tradePath, "0");
+      // fs.writeFileSync(tradePath, "0");
     }
   }
 });
