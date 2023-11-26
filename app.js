@@ -70,13 +70,10 @@ cron.schedule("* * * * * *", async () => {
   // }
 
   if (
-    +issueNumber.slice(-1) === 0 ||
     +issueNumber.slice(-1) === 1 ||
     +issueNumber.slice(-1) === 2 ||
     +issueNumber.slice(-1) === 6 ||
-    +issueNumber.slice(-1) === 7 ||
-    +issueNumber.slice(-1) === 8 ||
-    +issueNumber.slice(-1) === 9
+    +issueNumber.slice(-1) === 7
   ) {
     fs.writeFileSync(lastPath, "1");
     last = 1;
@@ -202,8 +199,10 @@ bot.on("message", (msg) => {
     let loss = +fs.readFileSync(lossPath).toString();
     if (!loss) {
       value = "Chiến lược thuận";
-    } else {
+    } else if (loss === 1) {
       value = "Chiến lược ngược";
+    } else {
+      value = "Chiến lược Premium";
     }
     bot.sendMessage(chatId, value);
     return;
