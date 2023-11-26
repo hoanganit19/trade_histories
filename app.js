@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 // });
 
 cron.schedule("* * * * * *", async () => {
-  const arr = [10, 20];
+  const arr = [10, 20, 40];
   const { IssueNumber: issueNumber } = await getGameIssue("66club");
   let histories = await getHistories("66club");
   histories = histories.slice(0, 2);
@@ -75,7 +75,8 @@ cron.schedule("* * * * * *", async () => {
     +issueNumber.slice(-1) === 2 ||
     +issueNumber.slice(-1) === 6 ||
     +issueNumber.slice(-1) === 7 ||
-    +issueNumber.slice(-1) === 8
+    +issueNumber.slice(-1) === 8 ||
+    +issueNumber.slice(-1) === 9
   ) {
     fs.writeFileSync(lastPath, "0");
     last = 0;
