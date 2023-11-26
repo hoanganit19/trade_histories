@@ -78,11 +78,11 @@ cron.schedule("* * * * * *", async () => {
     +issueNumber.slice(-1) === 8 ||
     +issueNumber.slice(-1) === 9
   ) {
-    fs.writeFileSync(lastPath, "0");
-    last = 0;
-  } else {
     fs.writeFileSync(lastPath, "1");
     last = 1;
+  } else {
+    fs.writeFileSync(lastPath, "0");
+    last = 0;
     if (+issueNumber.slice(-1) > 0 && +issueNumber.slice(-1) < 5) {
       if (!loss) {
         type = "small";
