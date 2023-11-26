@@ -162,6 +162,8 @@ cron.schedule("* * * * * *", async () => {
         `Đánh ${type} - ${(arr[index] * 1000).toLocaleString()}đ`,
       );
       console.log(order);
+    } else {
+      fs.writeFileSync(tradePath, "0");
     }
   }
 });
