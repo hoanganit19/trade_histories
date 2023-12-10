@@ -69,37 +69,60 @@ cron.schedule("* * * * * *", async () => {
   //   type = "big";
   // }
 
-  if (
-    +issueNumber.slice(-1) === 1 ||
-    +issueNumber.slice(-1) === 2 ||
-    +issueNumber.slice(-1) === 6 ||
-    +issueNumber.slice(-1) === 7
-  ) {
-    fs.writeFileSync(lastPath, "1");
-    last = 1;
-  } else {
-    fs.writeFileSync(lastPath, "0");
-    last = 0;
-    if (+issueNumber.slice(-1) > 0 && +issueNumber.slice(-1) < 5) {
-      if (!loss) {
-        type = "small";
-      } else {
-        type = "big";
-      }
-    } else {
-      if (!loss) {
-        type = "big";
-      } else {
-        type = "small";
-      }
-    }
+  // if (
+  //   +issueNumber.slice(-1) === 1 ||
+  //   +issueNumber.slice(-1) === 2 ||
+  //   +issueNumber.slice(-1) === 6 ||
+  //   +issueNumber.slice(-1) === 7
+  // ) {
+  //   fs.writeFileSync(lastPath, "1");
+  //   last = 1;
+  // } else {
+  //   fs.writeFileSync(lastPath, "0");
+  //   last = 0;
+  //   if (+issueNumber.slice(-1) > 0 && +issueNumber.slice(-1) < 5) {
+  //     if (!loss) {
+  //       type = "small";
+  //     } else {
+  //       type = "big";
+  //     }
+  //   } else {
+  //     if (!loss) {
+  //       type = "big";
+  //     } else {
+  //       type = "small";
+  //     }
+  //   }
 
-    if (loss === 2) {
-      if (premium1 < premium2) {
-        type = "small";
-      } else {
-        type = "big";
-      }
+  //   if (loss === 2) {
+  //     if (premium1 < premium2) {
+  //       type = "small";
+  //     } else {
+  //       type = "big";
+  //     }
+  //   }
+  // }
+  fs.writeFileSync(lastPath, "0");
+  last = 0;
+  if (+issueNumber.slice(-1) > 0 && +issueNumber.slice(-1) < 5) {
+    if (!loss) {
+      type = "small";
+    } else {
+      type = "big";
+    }
+  } else {
+    if (!loss) {
+      type = "big";
+    } else {
+      type = "small";
+    }
+  }
+
+  if (loss === 2) {
+    if (premium1 < premium2) {
+      type = "small";
+    } else {
+      type = "big";
     }
   }
 
