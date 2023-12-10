@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 // });
 
 cron.schedule("* * * * * *", async () => {
-  const arr = [10, 20, 40];
+  const arr = [10, 10, 20, 30, 50, 80, 130];
   const { IssueNumber: issueNumber } = await getGameIssue("66club");
   let histories = await getHistories("66club");
   histories = histories.slice(0, 2);
